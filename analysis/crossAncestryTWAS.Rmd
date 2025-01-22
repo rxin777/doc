@@ -1,5 +1,5 @@
 ---
-title: "Cross-ancestry TWAS Project Writeup"
+title: "Cross-Ancestry TWAS Project Writeup"
 author: "Riley Xin"
 date: "2024-01-15"
 output: html_document
@@ -25,13 +25,13 @@ Current research addresses ancestry-related issues in TWAS by adjusting GWAS sum
 
 ### TESLA
 
-[TESLA](https://www.nature.com/articles/s41588-022-01282-x "Multi-ancestry transcriptome-wide association analyses...") works for the case with multiple GWAS and a single eQTL dataset. The idea is to combine the GWAS weights in a way that leverages ancestry information based on allele frequency principal components (PCs). 
+[TESLA](https://www.nature.com/articles/s41588-022-01282-x "Multi-ancestry transcriptome-wide association analyses yield insights into tobacco use biology and drug repurposing") works for the case with multiple GWAS and a single eQTL dataset. The idea is to combine the GWAS weights in a way that leverages ancestry information based on allele frequency principal components (PCs). 
 
 TWAS statistics are normally formulated as:
 \[
 U_{\text{TWAS}} = \sum_j w_j z_j,
 \]
-where \( w_j \) are the eQTL-derived weights and \( z_j = b_j / s_j \) are the GWAS \( z \)-scores computed from phenotypic effect estimates \( b_j \) and their standard errors \( s_j \). TWAS tests yield optimal power when the eQTL weights are proportional to the phenotypic weights, which is often violated with the data have mismathced ancestry.
+where \( w_j \) are the eQTL-derived weights and \( z_j = b_j / s_j \) are the GWAS \( z \)-scores computed from phenotypic effect estimates \( b_j \) and their standard errors \( s_j \). TWAS tests yield optimal power when the eQTL weights are proportional to the phenotypic weights, which is often violated when the data have mismathced ancestry.
 
 The method tries to adjust \( b_j \) to be the predicted phenotypic effect \( \hat{b}_j^{[L]} \), modeled as a linear combination of the phenotypic effects across all participating studies.
 
