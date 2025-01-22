@@ -1,0 +1,72 @@
+---
+title: "Cross-ancestry TWAS Project Writeup"
+author: "Riley Xin"
+date: "2024-01-15"
+output: html_document
+---
+## Overview
+
+Transcriptome-wide association studies (TWAS), combined with gene-based fine mapping, enable the identification of potential causal genes for diseases. TWAS requires an expression prediction model (or eQTL data) and a GWAS dataset with matched ancestry. In practice, performing TWAS for underrepresented populations is challenging because GWAS data with matching ancestry are often unavailable. Even when available, non-European (non-EUR) GWAS suffer from small sample sizes, limiting the power for TWAS to detect potential causal genes. 
+
+A common scenario involves eQTL data from a non-EUR population paired with GWAS data from a EUR population. Using mismatched datasets of this nature has been shown to perform poorly in identifying causal genes, likely due to differences in allele frequencies (AFs) and linkage disequilibrium (LD) structures across ancestries. This project investigates the impact of AF differences in ancestry-mismatched TWAS and proposes strategies to address these effects. The strategies involve adjusting GWAS summary statistics and eQTL weights to account for ancestry-level information. 
+
+## Preliminary Analysis
+
+Using data from an asthma study with eQTL data from African Americans and GWAS data from Europeans, a baseline TWAS+fine mapping analysis was performed using cTWAS. In this analysis, EUR GWAS summary statistics (5,000,000 SNPs, sample size: X) and LD information of EUR individuals from UK Biobank were used alongside 3,000 significant eQTL associations identified in an AA cohort. No genes achieved a posterior inclusion probability (PIP) > 0.8, potentially due to violation of model assumptions that only hold under single-ancestry case. Convergence plots for this cTWAS run is attached below (interpretation?). We see a need for strategies that can address ancestry-related differences and improve integration of ancestry-mismatched GWAS and eQTL datasets. 
+
+```{r echo=FALSE}
+knitr::include_graphics("assets/ctwas_convergence_plots.png", error = FALSE)
+```
+
+
+## Existing Methods
+
+Current research addresses ancestry-related issues in TWAS by adjusting GWAS summary statistics or eQTL weights, focusing on scenarios with either multiple GWAS and eQTL from different ancestries are available, or multiple GWAS and a single-ancestry eQTL data is available. Below we review relevant approaches:  
+
+### TESLA
+TESLA works for the case with multiple GWAS and a single eQTL dataset. The idea is to combine the GWAS weights in a way that leverages ancestry information based on allele frequency principal components. 
+
+TWAS statistics are normally formulated as:
+\[
+U_{\text{TWAS}} = \sum_j w_j z_j,
+\]
+where \( w_j \) are the eQTL-derived weights and \( z_j = b_j / s_j \) are the GWAS \( z \)-scores computed from phenotypic effect estimates \( b_j \) and their standard errors \( s_j \). TWAS tests yield optimal power when the eQTL weights are proportional to the phenotypic weights, which is often violated with the data have mismathced ancestry.
+
+The method tries to adjust \( b_j \) to be the predicted phenotypic effect \( \hat{b}_j^{[L]} \), modeled as a linear combination of the phenotypic effects across all participating studies.
+
+**First**, construct the allele frequency (AF) matrix \( F \), where each row represents a study and each column represents a shared genetic variant. The AF matrix \( F \) is derived from allele frequency data assumed to be available in the GWAS summary statistics. Perform SVD on \( F = U S V^\top.\)
+To project \( F \) onto the first \( L \) principal components (PCs), calculate: \( F V^{[L]} = [US]_{1:L},\) where \( V^{[L]} \) represents the first \( L \) PCs, and denote this as \( X_l \) for \( l = 0, \ldots, L \).
+
+The phenotypic effects of genetic variants in study \( k \) are modeled as a linear combination of the effects from each PC:
+\[
+b_{jk} = \sum_{l=0}^{L} X_{lk} \gamma_{lj} + \epsilon_{jk},
+\]
+where \( b_{jk} \) follows a normal distribution with variance \( s^2_{jk} \).
+
+The regression coefficients for variant \( j \) across all PCs are estimated using weighted least squares:
+\[
+\hat{\gamma}_j^{[L]} = \left(X^{[L]\top} \Omega_j X^{[L]}\right)^{-1} X^{[L]\top} \Omega_j b_j,
+\]
+where \( \Omega_j = \text{diag}(s_{j1}, \ldots, s_{jK}) \). The meta-regression coefficients \( \hat{\gamma}_j^{[L]} \) quantify the extent of SNP effect heterogeneity as a function of ancestry. 
+
+**Next**, using \( \hat{\gamma}_j^{[L]} \), the phenotypic effects in the ancestry of the eQTL dataset can be estimated by:
+\[
+\hat{b}_j = \bar{X}^{[L]} \hat{\gamma}_j^{[L]},
+\]
+where \( \bar{X}^{[L]} \) is the projected ancestry coordinates of the eQTL dataset in the PC space defined by the GWAS studies:
+\[
+\bar{X}^{[L]} = \bar{F} V^{[L]}.
+\]
+Now, the proportionaly condition is satisfied. The covariance matrix of \( \hat{b}_j \) can be estimated using LD matrix from the ancestry of each study.
+
+### METRO
+
+
+## Methods
+
+Existing approaches all assume multiple GWAS input and pull information across datasets to account for ancestral differences. However, we are interested in the case of a single GWAS dataset and an eQTL dataset from different ancestries and finding causal genes in the ancestry of the eQTL dataset. Since GWAS effect sizes are directly influenced by allele frequencies, a potential solution is to adjust the GWAS weights  by allele frequency to be on the same scale with the eQTL weights. This involves modeling GWAS weights as a function of allele frequency...
+
+
+
+
+
