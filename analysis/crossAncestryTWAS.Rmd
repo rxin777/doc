@@ -25,7 +25,7 @@ Current research addresses ancestry-related issues in TWAS by adjusting GWAS sum
 
 ### TESLA
 
-TESLA works for the case with multiple GWAS and a single eQTL dataset. The idea is to combine the GWAS weights in a way that leverages ancestry information based on allele frequency principal components. 
+[TESLA](https://www.nature.com/articles/s41588-022-01282-x "Multi-ancestry transcriptome-wide association analyses...") works for the case with multiple GWAS and a single eQTL dataset. The idea is to combine the GWAS weights in a way that leverages ancestry information based on allele frequency principal components (PCs). 
 
 TWAS statistics are normally formulated as:
 \[
@@ -36,7 +36,7 @@ where \( w_j \) are the eQTL-derived weights and \( z_j = b_j / s_j \) are the G
 The method tries to adjust \( b_j \) to be the predicted phenotypic effect \( \hat{b}_j^{[L]} \), modeled as a linear combination of the phenotypic effects across all participating studies.
 
 **First**, construct the allele frequency (AF) matrix \( F \), where each row represents a study and each column represents a shared genetic variant. The AF matrix \( F \) is derived from allele frequency data assumed to be available in the GWAS summary statistics. Perform SVD on \( F = U S V^\top.\)
-To project \( F \) onto the first \( L \) principal components (PCs), calculate: \( F V^{[L]} = [US]_{1:L},\) where \( V^{[L]} \) represents the first \( L \) PCs, and denote this as \( X_l \) for \( l = 0, \ldots, L \).
+To project \( F \) onto the first \( L \) PCs, calculate: \( F V^{[L]} = [US]_{1:L},\) where \( V^{[L]} \) represents the first \( L \) PCs, and denote this as \( X_l \) for \( l = 0, \ldots, L \).
 
 The phenotypic effects of genetic variants in study \( k \) are modeled as a linear combination of the effects from each PC:
 \[
@@ -62,7 +62,7 @@ Now, the proportionaly condition is satisfied. The covariance matrix of \( \hat{
 
 ### METRO
 
-METRO requires multiple GWAS and eQTL datasets from different ancestries, either at the summary statistics level or the individual-level. It jointly models SNP effects on expression and phenotype by: 1. Assuming that SNP effects on gene expression in the GWAS can be expressed as a weighted summation of the SNP effects on gene expression in expression studies performed across different ancestries, and regressing phenotype on genotype $\times$ SNP effects. 2. A non-Bayesian likelihood-based approach with EM for parameter estimation.
+[METRO](https://pmc.ncbi.nlm.nih.gov/articles/PMC9118130/ "METRO: Multi-ancestry transcriptome-wide association studies for powerful gene-trait association detection") requires multiple GWAS and eQTL datasets from different ancestries, either at the summary statistics level or the individual-level. It jointly models SNP effects on expression and phenotype by: 1. Assuming that SNP effects on gene expression in the GWAS can be expressed as a weighted summation of the SNP effects on gene expression in expression studies performed across different ancestries, and regressing phenotype on genotype $\times$ SNP effects. 2. A non-Bayesian likelihood-based approach with EM for parameter estimation.
 
 ## Methods
 
