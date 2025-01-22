@@ -24,6 +24,7 @@ knitr::include_graphics("assets/ctwas_convergence_plots.png", error = FALSE)
 Current research addresses ancestry-related issues in TWAS by adjusting GWAS summary statistics or eQTL weights, focusing on scenarios with either multiple GWAS and eQTL from different ancestries are available, or multiple GWAS and a single-ancestry eQTL data is available. Below we review relevant approaches:  
 
 ### TESLA
+
 TESLA works for the case with multiple GWAS and a single eQTL dataset. The idea is to combine the GWAS weights in a way that leverages ancestry information based on allele frequency principal components. 
 
 TWAS statistics are normally formulated as:
@@ -61,6 +62,7 @@ Now, the proportionaly condition is satisfied. The covariance matrix of \( \hat{
 
 ### METRO
 
+METRO requires multiple GWAS and eQTL datasets from different ancestries, either at the summary statistics level or the individual-level. It jointly models SNP effects on expression and phenotype by: 1. Assuming that SNP effects on gene expression in the GWAS can be expressed as a weighted summation of the SNP effects on gene expression in expression studies performed across different ancestries, and regressing phenotype on genotype $\times$ SNP effects. 2. A non-Bayesian likelihood-based approach with EM for parameter estimation.
 
 ## Methods
 
