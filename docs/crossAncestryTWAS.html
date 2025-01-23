@@ -369,7 +369,7 @@ div.tocify {
 <p>
 <button type="button" class="btn btn-default btn-workflowr btn-workflowr-report" data-toggle="collapse" data-target="#workflowr-report">
 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>
-workflowr <span class="glyphicon glyphicon-ok text-success"
+workflowr <span class="glyphicon glyphicon-exclamation-sign text-danger"
 aria-hidden="true"></span>
 </button>
 </p>
@@ -380,8 +380,8 @@ aria-hidden="true"></span>
 </li>
 <li>
 <a data-toggle="tab" href="#checks"> Checks <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-</a>
+class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> </a>
 </li>
 <li>
 <a data-toggle="tab" href="#versions">Past versions</a>
@@ -390,13 +390,13 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-01-22
+<strong>Last updated:</strong> 2025-01-23
 </p>
 <p>
 <strong>Checks:</strong> <span
-class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 7
+class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span> 6
 <span class="glyphicon glyphicon-exclamation-sign text-danger"
-aria-hidden="true"></span> 0
+aria-hidden="true"></span> 1
 </p>
 <p>
 <strong>Knit directory:</strong> <code>doc/</code> <span
@@ -419,18 +419,21 @@ versions</em> tab lists the development history.
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguptodate">
-<span class="glyphicon glyphicon-ok text-success"
-aria-hidden="true"></span> <strong>R Markdown file:</strong> up-to-date
-</a>
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRMarkdownfilestronguncommittedchanges">
+<span class="glyphicon glyphicon-exclamation-sign text-danger"
+aria-hidden="true"></span> <strong>R Markdown file:</strong> uncommitted
+changes </a>
 </p>
 </div>
-<div id="strongRMarkdownfilestronguptodate"
+<div id="strongRMarkdownfilestronguncommittedchanges"
 class="panel-collapse collapse">
 <div class="panel-body">
-<p>Great! Since the R Markdown file has been committed to the Git
-repository, you know the exact version of the code that produced these
-results.</p>
+<p>The R Markdown file has unstaged changes. To know which version of
+the R Markdown file created these results, you’ll want to first commit
+it to the Git repo. If you’re still working on the analysis, you can
+ignore this warning. When you’re finished, you can run
+<code>wflow_publish</code> to commit the R Markdown file and build the
+HTML.</p>
 </div>
 </div>
 </div>
@@ -521,15 +524,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrxin777doctree26f729da7f771f08af316866f38fc83ca0fa85aetargetblank26f729da">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrxin777doctree0914eb63f5def0bbf4a8b13d9c62c5e91353dcbctargetblank0914eb6a">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rxin777/doc/tree/26f729da7f771f08af316866f38fc83ca0fa85ae" target="_blank">26f729d</a>
+<a href="https://github.com/rxin777/doc/tree/0914eb63f5def0bbf4a8b13d9c62c5e91353dcbc" target="_blank">0914eb6</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrxin777doctree26f729da7f771f08af316866f38fc83ca0fa85aetargetblank26f729da"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrxin777doctree0914eb63f5def0bbf4a8b13d9c62c5e91353dcbctargetblank0914eb6a"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -539,7 +542,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rxin777/doc/tree/26f729da7f771f08af316866f38fc83ca0fa85ae" target="_blank">26f729d</a>.
+<a href="https://github.com/rxin777/doc/tree/0914eb63f5def0bbf4a8b13d9c62c5e91353dcbc" target="_blank">0914eb6</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -556,6 +559,9 @@ were generated:
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
+
+Unstaged changes:
+    Modified:   analysis/crossAncestryTWAS.Rmd
 
 </code></pre>
 <p>
@@ -601,6 +607,23 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rxin777/doc/0914eb63f5def0bbf4a8b13d9c62c5e91353dcbc/docs/crossAncestryTWAS.html" target="_blank">0914eb6</a>
+</td>
+<td>
+RileyXin
+</td>
+<td>
+2025-01-22
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -824,10 +847,13 @@ performed using cTWAS. In this analysis, EUR GWAS summary statistics
 from UK Biobank were used alongside 3,000 significant eQTL associations
 identified in an AA cohort. No genes achieved a posterior inclusion
 probability (PIP) &gt; 0.8, potentially due to violation of model
-assumptions that only hold under single-ancestry case. Convergence plots
-for this cTWAS run is attached below (interpretation?). We see a need
-for strategies that can address ancestry-related differences and improve
-integration of ancestry-mismatched GWAS and eQTL datasets.</p>
+assumptions that only hold under single-ancestry case. This could also
+reflect the nature of asthma, where eQTLs may explain only a small
+portion of heritability, especially when derived from a single cell type
+and condition. Convergence plots for this cTWAS run is attached below.
+We see a need for strategies that can address ancestry-related
+differences and improve integration of ancestry-mismatched GWAS and eQTL
+datasets.</p>
 <p><img src="assets/ctwas_convergence_plots.png" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ctwas_convergence_plots">
@@ -992,21 +1018,17 @@ tzcode source: internal
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
-other attached packages:
-[1] workflowr_1.7.1
-
 loaded via a namespace (and not attached):
- [1] jsonlite_1.8.8    compiler_4.4.0    highr_0.11        promises_1.3.0   
- [5] Rcpp_1.0.13       stringr_1.5.1     git2r_0.35.0      callr_3.7.6      
- [9] later_1.3.2       jquerylib_0.1.4   yaml_2.3.8        fastmap_1.2.0    
-[13] R6_2.5.1          knitr_1.47        tibble_3.2.1      rprojroot_2.0.4  
-[17] bslib_0.7.0       pillar_1.9.0      rlang_1.1.4       utf8_1.2.4       
-[21] cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15     xfun_0.44        
-[25] getPass_0.2-4     fs_1.6.4          sass_0.4.9        cli_3.6.3        
-[29] magrittr_2.0.3    ps_1.7.6          digest_0.6.35     processx_3.8.4   
-[33] rstudioapi_0.16.0 lifecycle_1.0.4   vctrs_0.6.5       evaluate_0.24.0  
-[37] glue_1.7.0        whisker_0.4.1     fansi_1.0.6       rmarkdown_2.27   
-[41] httr_1.4.7        tools_4.4.0       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
+ [1] vctrs_0.6.5       cli_3.6.3         knitr_1.47        rlang_1.1.4      
+ [5] xfun_0.44         highr_0.11        stringi_1.8.4     promises_1.3.0   
+ [9] jsonlite_1.8.8    workflowr_1.7.1   glue_1.7.0        rprojroot_2.0.4  
+[13] git2r_0.35.0      htmltools_0.5.8.1 httpuv_1.6.15     sass_0.4.9       
+[17] fansi_1.0.6       rmarkdown_2.27    jquerylib_0.1.4   evaluate_0.24.0  
+[21] tibble_3.2.1      fastmap_1.2.0     yaml_2.3.8        lifecycle_1.0.4  
+[25] whisker_0.4.1     stringr_1.5.1     compiler_4.4.0    fs_1.6.4         
+[29] Rcpp_1.0.13       pkgconfig_2.0.3   rstudioapi_0.16.0 later_1.3.2      
+[33] digest_0.6.35     R6_2.5.1          utf8_1.2.4        pillar_1.9.0     
+[37] magrittr_2.0.3    bslib_0.7.0       tools_4.4.0       cachem_1.1.0     </code></pre>
 </div>
 </div>
 
