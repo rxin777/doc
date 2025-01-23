@@ -19,7 +19,7 @@ knitr::include_graphics("assets/ctwas_convergence_plots.png", error = FALSE)
 ```
 
 
-## Existing Methods
+## Existing Approaches
 
 Current research addresses ancestry-related issues in TWAS by adjusting GWAS summary statistics or eQTL weights, focusing on scenarios with either multiple GWAS and eQTL from different ancestries are available, or multiple GWAS and a single-ancestry eQTL data is available. Below we review relevant approaches:  
 
