@@ -45,7 +45,6 @@ ctwas_table <- data.frame(
 knitr::kable(ctwas_table, format = "html", escape = FALSE) %>%
   kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover")) %>%
   column_spec(1:ncol(ctwas_table), width = "auto")
-
 ```
 
 (I'll plot results in a single panel once we run all datasets)
