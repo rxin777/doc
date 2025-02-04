@@ -18,15 +18,15 @@ We performed cTWAS using various sets of GWAS datasets (unpublished COA, AOA and
 library(kableExtra)
 
 data_table <- data.frame(
-  "Analysis" = c("1","2","3"),
-  "GWAS" = c("AOA", "COA", "COA"),
-  "GWAS n(c/ctrl.)" = c("20,702/308,537", "9,613/308,537", "-"),
-  "Gwas population" = c("White British", "White British", "-"),
-  "eQTL" = c("eQTLGen", "-", "URECA"),
-  "eQTL n" = c("31684", "-", "3000"),
-  "eQTL tissue" = c("Blood", "-", "Nasal Epithelial"),
-  "eQTL population" = c("EUR", "-", "AA"),
-  "LD population" = c("EUR", "-", "-")
+  "Analysis" = c("1","2","3", "4"),
+  "GWAS" = c("AOA", "COA", "COA", "AOA"),
+  "GWAS n(c/ctrl.)" = c("20,702/308,537", "9,613/308,537", "9,613/308,537", "20,702/308,537"),
+  "Gwas population" = c("White British", "White British", "White British", "White British"),
+  "eQTL" = c("eQTLGen", "eQTLGen", "URECA", "URECA"),
+  "eQTL n" = c("31684", "31684", "300", "300"),
+  "eQTL tissue" = c("Blood", "Blood", "Nasal Epithelial", "Nasal Epithelial"),
+  "eQTL population" = c("EUR", "EUR", "AFR", "AFR"),
+  "LD population" = c("EUR", "EUR", "EUR", "EUR")
 )
 
 knitr::kable(data_table, format = "html", escape = FALSE) %>%
@@ -34,12 +34,12 @@ knitr::kable(data_table, format = "html", escape = FALSE) %>%
   column_spec(1:ncol(data_table), width = "auto")
 
 ctwas_table <- data.frame(
-  "Analysis" = c("1","2","3"),
-  "prior group shared" = c("True", "-", "-"),
-  "top QTL" = c("True", "-", "-"),
-  "total n genes" = c("16987", "16987", "3638"),
-  "n genes after harmonization" = c("16703", "16703", "3081"),
-  "genes PIP greater 0.8" = c("ENSG00000197536", "ENSG00000106799, ENSG00000138160, ENSG00000134954, ENSG00000265148", "NA")
+  "Analysis" = c("1","2","3", "4"),
+  "prior group shared" = c("True", "True", "True", "True"),
+  "top QTL" = c("True", "True", "True", "True"),
+  "total n genes" = c("16987", "16987", "3638", "3638"),
+  "n genes after harmonization" = c("16703", "16703", "3081", "3081"),
+  "genes PIP greater 0.8" = c("ENSG00000197536", "ENSG00000106799, ENSG00000138160, ENSG00000134954, ENSG00000265148", "NA", "NA")
 )
 
 knitr::kable(ctwas_table, format = "html", escape = FALSE) %>%
