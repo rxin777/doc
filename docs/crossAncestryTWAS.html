@@ -37,6 +37,8 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
 <link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
 
@@ -390,7 +392,7 @@ class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 <div class="tab-content">
 <div id="summary" class="tab-pane fade in active">
 <p>
-<strong>Last updated:</strong> 2025-01-23
+<strong>Last updated:</strong> 2025-02-04
 </p>
 <p>
 <strong>Checks:</strong> <span
@@ -521,15 +523,15 @@ project makes it easier to run your code on other machines.</p>
 <div class="panel panel-default">
 <div class="panel-heading">
 <p class="panel-title">
-<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrxin777doctreeb18465c76e1597606d63209d4020270da962b45dtargetblankb18465ca">
+<a data-toggle="collapse" data-parent="#workflowr-checks" href="#strongRepositoryversionstrongahrefhttpsgithubcomrxin777doctree627362d0f6f5e70d46d210fc6c6096a23dbdff50targetblank627362da">
 <span class="glyphicon glyphicon-ok text-success"
 aria-hidden="true"></span> <strong>Repository version:</strong>
-<a href="https://github.com/rxin777/doc/tree/b18465c76e1597606d63209d4020270da962b45d" target="_blank">b18465c</a>
+<a href="https://github.com/rxin777/doc/tree/627362d0f6f5e70d46d210fc6c6096a23dbdff50" target="_blank">627362d</a>
 </a>
 </p>
 </div>
 <div
-id="strongRepositoryversionstrongahrefhttpsgithubcomrxin777doctreeb18465c76e1597606d63209d4020270da962b45dtargetblankb18465ca"
+id="strongRepositoryversionstrongahrefhttpsgithubcomrxin777doctree627362d0f6f5e70d46d210fc6c6096a23dbdff50targetblank627362da"
 class="panel-collapse collapse">
 <div class="panel-body">
 <p>
@@ -539,7 +541,7 @@ reproducibility.
 </p>
 <p>
 The results in this page were generated with repository version
-<a href="https://github.com/rxin777/doc/tree/b18465c76e1597606d63209d4020270da962b45d" target="_blank">b18465c</a>.
+<a href="https://github.com/rxin777/doc/tree/627362d0f6f5e70d46d210fc6c6096a23dbdff50" target="_blank">627362d</a>.
 See the <em>Past versions</em> tab to see a history of the changes made
 to the R Markdown and HTML files.
 </p>
@@ -556,6 +558,7 @@ were generated:
 Ignored files:
     Ignored:    .DS_Store
     Ignored:    .Rhistory
+    Ignored:    analysis/.Rhistory
 
 </code></pre>
 <p>
@@ -601,6 +604,40 @@ Message
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>
+Rmd
+</td>
+<td>
+<a href="https://github.com/rxin777/doc/blob/627362d0f6f5e70d46d210fc6c6096a23dbdff50/analysis/crossAncestryTWAS.Rmd" target="_blank">627362d</a>
+</td>
+<td>
+RileyXin
+</td>
+<td>
+2025-02-04
+</td>
+<td>
+workflowr::wflow_publish("crossAncestryTWAS.Rmd")
+</td>
+</tr>
+<tr>
+<td>
+html
+</td>
+<td>
+<a href="https://rawcdn.githack.com/rxin777/doc/be7dfe10f72bf058f6e20bda7f0081eb0d694224/docs/crossAncestryTWAS.html" target="_blank">be7dfe1</a>
+</td>
+<td>
+RileyXin
+</td>
+<td>
+2025-01-23
+</td>
+<td>
+Build site.
+</td>
+</tr>
 <tr>
 <td>
 Rmd
@@ -907,33 +944,253 @@ performing TWAS for underrepresented populations is challenging because
 GWAS data with matching ancestry are often unavailable. Even when
 available, non-European (non-EUR) GWAS suffer from small sample sizes,
 limiting the power for TWAS to detect potential causal genes.</p>
-<p>A common scenario involves eQTL data from a non-EUR population paired
-with GWAS data from a EUR population. Using mismatched datasets of this
-nature has been shown to perform poorly in identifying causal genes,
-likely due to differences in allele frequencies (AFs) and linkage
-disequilibrium (LD) structures across ancestries. This project
-investigates the impact of AF differences in ancestry-mismatched TWAS
-and proposes strategies to address these effects. The strategies involve
-adjusting GWAS summary statistics and eQTL weights to account for
-ancestry-level information.</p>
+<p>To identify candidate causal genes for asthma, we perform cTWAS
+analyses using different combinations of GWAS and eQTL datasets. The
+goal is to prioritize genes with high posterior inclusion probabilities
+(PIP) and conduct downstream functional analyses, independent of
+ancestry-related concerns or model optimization at this stage. After
+establishing these findings, we can explore strategies to build our own
+gene expression prediction model that will enable TWAS in
+ancestry-mismatched settings.</p>
 </div>
-<div id="preliminary-analysis" class="section level2">
-<h2>Preliminary Analysis</h2>
-<p>Using data from an asthma study with eQTL data from African Americans
-and GWAS data from Europeans, a baseline TWAS+fine mapping analysis was
-performed using cTWAS. In this analysis, EUR GWAS summary statistics
-(5,000,000 SNPs, sample size: X) and LD information of EUR individuals
-from UK Biobank were used alongside 3,000 significant eQTL associations
-identified in an AA cohort. No genes achieved a posterior inclusion
-probability (PIP) &gt; 0.8, potentially due to violation of model
-assumptions that only hold under single-ancestry case. This could also
-reflect the nature of asthma, where eQTLs may explain only a small
-portion of heritability, especially when derived from a single cell type
-and condition. Convergence plots for this cTWAS run is attached below.
-We see a need for strategies that can address ancestry-related
-differences and improve integration of ancestry-mismatched GWAS and eQTL
-datasets.</p>
-<p><img src="assets/ctwas_convergence_plots.png" style="display: block; margin: auto;" /></p>
+<div id="ctwas-analysis-on-asthma" class="section level2">
+<h2>cTWAS Analysis on Asthma</h2>
+<p>We performed cTWAS using various sets of GWAS datasets (unpublished
+COA, AOA and <a
+href="https://zenodo.org/records/3629742#.XjCh9OF7m90">GTEx</a>) and
+eQTL (<a
+href="https://www.nature.com/articles/s41588-021-00913-z">eQTLGen</a>,
+URECA, <a
+href="https://www.science.org/doi/10.1126/science.abf3041">1K1K</a>, <a
+href="https://www.science.org/doi/10.1126/sciimmunol.abm2508">DICE</a>).
+A summary table of the datasets and cTWAS results is provided below. The
+new eQTL dataset, URECA, is derived from an from African American
+population, while all other GWAS/eQTL datasets are from the Europearn
+population. Asthma eQTLs are known to explain only a small portion of
+heritability, which may limit our ability to detect strong signals. We
+are interested in genes with high PIP for functional analysis.</p>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Analysis
+</th>
+<th style="text-align:left;">
+GWAS
+</th>
+<th style="text-align:left;">
+GWAS.n.c.ctrl..
+</th>
+<th style="text-align:left;">
+Gwas.population
+</th>
+<th style="text-align:left;">
+eQTL
+</th>
+<th style="text-align:left;">
+eQTL.n
+</th>
+<th style="text-align:left;">
+eQTL.tissue
+</th>
+<th style="text-align:left;">
+eQTL.population
+</th>
+<th style="text-align:left;">
+LD.population
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: auto; ">
+1
+</td>
+<td style="text-align:left;width: auto; ">
+AOA
+</td>
+<td style="text-align:left;width: auto; ">
+20,702/308,537
+</td>
+<td style="text-align:left;width: auto; ">
+White British
+</td>
+<td style="text-align:left;width: auto; ">
+eQTLGen
+</td>
+<td style="text-align:left;width: auto; ">
+31684
+</td>
+<td style="text-align:left;width: auto; ">
+Blood
+</td>
+<td style="text-align:left;width: auto; ">
+EUR
+</td>
+<td style="text-align:left;width: auto; ">
+EUR
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: auto; ">
+2
+</td>
+<td style="text-align:left;width: auto; ">
+COA
+</td>
+<td style="text-align:left;width: auto; ">
+9,613/308,537
+</td>
+<td style="text-align:left;width: auto; ">
+White British
+</td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+</tr>
+<tr>
+<td style="text-align:left;width: auto; ">
+3
+</td>
+<td style="text-align:left;width: auto; ">
+COA
+</td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+URECA
+</td>
+<td style="text-align:left;width: auto; ">
+3000
+</td>
+<td style="text-align:left;width: auto; ">
+Nasal Epithelial
+</td>
+<td style="text-align:left;width: auto; ">
+AA
+</td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<table class="table table-striped table-hover" style="width: auto !important; margin-left: auto; margin-right: auto;">
+<thead>
+<tr>
+<th style="text-align:left;">
+Analysis
+</th>
+<th style="text-align:left;">
+prior.group.shared
+</th>
+<th style="text-align:left;">
+top.QTL
+</th>
+<th style="text-align:left;">
+total.n.genes
+</th>
+<th style="text-align:left;">
+n.genes.after.harmonization
+</th>
+<th style="text-align:left;">
+genes.PIP.greater.0.8
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;width: auto; ">
+1
+</td>
+<td style="text-align:left;width: auto; ">
+True
+</td>
+<td style="text-align:left;width: auto; ">
+True
+</td>
+<td style="text-align:left;width: auto; ">
+16987
+</td>
+<td style="text-align:left;width: auto; ">
+16703
+</td>
+<td style="text-align:left;width: auto; ">
+ENSG00000197536
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: auto; ">
+2
+</td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+16987
+</td>
+<td style="text-align:left;width: auto; ">
+16703
+</td>
+<td style="text-align:left;width: auto; ">
+ENSG00000106799, ENSG00000138160, ENSG00000134954, ENSG00000265148
+</td>
+</tr>
+<tr>
+<td style="text-align:left;width: auto; ">
+3
+</td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+<ul>
+<li></td>
+<td style="text-align:left;width: auto; ">
+3638
+</td>
+<td style="text-align:left;width: auto; ">
+3081
+</td>
+<td style="text-align:left;width: auto; ">
+NA
+</td>
+</tr>
+</tbody>
+</table></li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<p>(I’ll plot results in a single panel once we run all datasets)
+<img src="assets/ctwas_convergence_plots.png" style="display: block; margin: auto;" /></p>
 <p>
 <button type="button" class="btn btn-default btn-xs btn-workflowr btn-workflowr-fig" data-toggle="collapse" data-target="#fig-ctwas_convergence_plots">
 Past versions of ctwas_convergence_plots.png
@@ -979,6 +1236,12 @@ adjusting GWAS summary statistics or eQTL weights, focusing on scenarios
 with either multiple GWAS and eQTL from different ancestries are
 available, or multiple GWAS and a single-ancestry eQTL data is
 available. Below we review relevant approaches:</p>
+<div id="sbayesrc" class="section level3">
+<h3>SBayesRC</h3>
+<p>Prior on GWAS weights based on functional annotations that is
+adaptable to population mismatches; does not require training on data
+from the target population to make predictions…</p>
+</div>
 <div id="tesla" class="section level3">
 <h3>TESLA</h3>
 <p><a href="https://www.nature.com/articles/s41588-022-01282-x"
@@ -1097,17 +1360,22 @@ tzcode source: internal
 attached base packages:
 [1] stats     graphics  grDevices utils     datasets  methods   base     
 
+other attached packages:
+[1] kableExtra_1.4.0
+
 loaded via a namespace (and not attached):
- [1] vctrs_0.6.5       cli_3.6.3         knitr_1.47        rlang_1.1.4      
- [5] xfun_0.44         highr_0.11        stringi_1.8.4     promises_1.3.0   
- [9] jsonlite_1.8.8    workflowr_1.7.1   glue_1.7.0        rprojroot_2.0.4  
-[13] git2r_0.35.0      htmltools_0.5.8.1 httpuv_1.6.15     sass_0.4.9       
-[17] fansi_1.0.6       rmarkdown_2.27    jquerylib_0.1.4   evaluate_0.24.0  
-[21] tibble_3.2.1      fastmap_1.2.0     yaml_2.3.8        lifecycle_1.0.4  
-[25] whisker_0.4.1     stringr_1.5.1     compiler_4.4.0    fs_1.6.4         
-[29] Rcpp_1.0.13       pkgconfig_2.0.3   rstudioapi_0.16.0 later_1.3.2      
-[33] digest_0.6.35     R6_2.5.1          utf8_1.2.4        pillar_1.9.0     
-[37] magrittr_2.0.3    bslib_0.7.0       tools_4.4.0       cachem_1.1.0     </code></pre>
+ [1] jsonlite_1.8.8    highr_0.11        compiler_4.4.0    promises_1.3.0   
+ [5] Rcpp_1.0.13       xml2_1.3.6        stringr_1.5.1     git2r_0.35.0     
+ [9] later_1.3.2       jquerylib_0.1.4   systemfonts_1.1.0 scales_1.3.0     
+[13] yaml_2.3.8        fastmap_1.2.0     R6_2.5.1          workflowr_1.7.1  
+[17] knitr_1.47        tibble_3.2.1      munsell_0.5.1     rprojroot_2.0.4  
+[21] svglite_2.1.3     bslib_0.7.0       pillar_1.9.0      rlang_1.1.4      
+[25] utf8_1.2.4        cachem_1.1.0      stringi_1.8.4     httpuv_1.6.15    
+[29] xfun_0.44         fs_1.6.4          sass_0.4.9        viridisLite_0.4.2
+[33] cli_3.6.3         magrittr_2.0.3    digest_0.6.35     rstudioapi_0.16.0
+[37] lifecycle_1.0.4   vctrs_0.6.5       evaluate_0.24.0   glue_1.7.0       
+[41] whisker_0.4.1     fansi_1.0.6       colorspace_2.1-1  rmarkdown_2.27   
+[45] tools_4.4.0       pkgconfig_2.0.3   htmltools_0.5.8.1</code></pre>
 </div>
 </div>
 
