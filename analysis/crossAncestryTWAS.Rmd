@@ -8,12 +8,47 @@ output: html_document
 
 Transcriptome-wide association studies (TWAS), combined with gene-based fine mapping, enable the identification of potential causal genes for diseases. TWAS requires an expression prediction model (or eQTL data) and a GWAS dataset with matched ancestry. In practice, performing TWAS for underrepresented populations is challenging because GWAS data with matching ancestry are often unavailable. Even when available, non-European (non-EUR) GWAS suffer from small sample sizes, limiting the power for TWAS to detect potential causal genes. 
 
-A common scenario involves eQTL data from a non-EUR population paired with GWAS data from a EUR population. Using mismatched datasets of this nature has been shown to perform poorly in identifying causal genes, likely due to differences in allele frequencies (AFs) and linkage disequilibrium (LD) structures across ancestries. This project investigates the impact of AF differences in ancestry-mismatched TWAS and proposes strategies to address these effects. The strategies involve adjusting GWAS summary statistics and eQTL weights to account for ancestry-level information. 
+To identify candidate causal genes for asthma, we perform cTWAS analyses using different combinations of GWAS and eQTL datasets. The goal is to prioritize genes with high posterior inclusion probabilities (PIP) and conduct downstream functional analyses, independent of ancestry-related concerns or model optimization at this stage. After establishing these findings, we can explore strategies to build our own gene expression prediction model that will enable TWAS in ancestry-mismatched settings.
 
-## Preliminary Analysis
+## cTWAS Analysis on Asthma
 
-Using data from an asthma study with eQTL data from African Americans and GWAS data from Europeans, a baseline TWAS+fine mapping analysis was performed using cTWAS. In this analysis, EUR GWAS summary statistics (5,000,000 SNPs, sample size: X) and LD information of EUR individuals from UK Biobank were used alongside 3,000 significant eQTL associations identified in an AA cohort. No genes achieved a posterior inclusion probability (PIP) > 0.8, potentially due to violation of model assumptions that only hold under single-ancestry case. This could also reflect the nature of asthma, where eQTLs may explain only a small portion of heritability, especially when derived from a single cell type and condition. Convergence plots for this cTWAS run is attached below. We see a need for strategies that can address ancestry-related differences and improve integration of ancestry-mismatched GWAS and eQTL datasets. 
+We performed cTWAS using various sets of GWAS datasets (unpublished COA, AOA and [GTEx](https://zenodo.org/records/3629742#.XjCh9OF7m90)) and eQTL ([eQTLGen](https://www.nature.com/articles/s41588-021-00913-z), URECA, [1K1K](https://www.science.org/doi/10.1126/science.abf3041), [DICE](https://www.science.org/doi/10.1126/sciimmunol.abm2508)). A summary table of the datasets and cTWAS results is provided below. The new eQTL dataset, URECA, is derived from an from African American population, while all other GWAS/eQTL datasets are from the Europearn population. Asthma eQTLs are known to explain only a small portion of heritability, which may limit our ability to detect strong signals. We are interested in genes with high PIP for functional analysis. 
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+library(kableExtra)
+
+data_table <- data.frame(
+  "Analysis" = c("1","2","3"),
+  "GWAS" = c("AOA", "COA", "COA"),
+  "GWAS n(c/ctrl.)" = c("20,702/308,537", "9,613/308,537", "-"),
+  "Gwas population" = c("White British", "White British", "-"),
+  "eQTL" = c("eQTLGen", "-", "URECA"),
+  "eQTL n" = c("31684", "-", "3000"),
+  "eQTL tissue" = c("Blood", "-", "Nasal Epithelial"),
+  "eQTL population" = c("EUR", "-", "AA"),
+  "LD population" = c("EUR", "-", "-")
+)
+
+knitr::kable(data_table, format = "html", escape = FALSE) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1:ncol(data_table), width = "auto")
+
+ctwas_table <- data.frame(
+  "Analysis" = c("1","2","3"),
+  "prior group shared" = c("True", "-", "-"),
+  "top QTL" = c("True", "-", "-"),
+  "total n genes" = c("16987", "16987", "3638"),
+  "n genes after harmonization" = c("16703", "16703", "3081"),
+  "genes PIP greater 0.8" = c("ENSG00000197536", "ENSG00000106799, ENSG00000138160, ENSG00000134954, ENSG00000265148", "NA")
+)
+
+knitr::kable(ctwas_table, format = "html", escape = FALSE) %>%
+  kable_styling(full_width = FALSE, bootstrap_options = c("striped", "hover")) %>%
+  column_spec(1:ncol(ctwas_table), width = "auto")
+
+```
+
+(I'll plot results in a single panel once we run all datasets)
 ```{r echo=FALSE}
 knitr::include_graphics("assets/ctwas_convergence_plots.png", error = FALSE)
 ```
@@ -22,6 +57,10 @@ knitr::include_graphics("assets/ctwas_convergence_plots.png", error = FALSE)
 ## Existing Approaches
 
 Current research addresses ancestry-related issues in TWAS by adjusting GWAS summary statistics or eQTL weights, focusing on scenarios with either multiple GWAS and eQTL from different ancestries are available, or multiple GWAS and a single-ancestry eQTL data is available. Below we review relevant approaches:  
+
+### SBayesRC
+
+Prior on GWAS weights based on functional annotations that is adaptable to population mismatches; does not require training on data from the target population to make predictions...
 
 ### TESLA
 
